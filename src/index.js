@@ -47,7 +47,7 @@ window.loadChart = function (json) {
       onclick: function (d){
         console.log('onclick data', d);
         // // is called "deconstruction"
-      const {index, id, value, name} = (d);
+      const {index, value, name} = (d);
       // // console.log("Index", index);
       const month = months[index];
       const newObj = {month , name, value};
