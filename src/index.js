@@ -19,17 +19,14 @@ const months = [
 // This calls the loadChart script on FM (loadChart returns json as a string)
 window.loadChart = function (json) {
   console.log('loadChart' , json);
+  
+  // JSON.parse() will convert the string object 'json' to a JSON object that JS can use (looks like {data: [{Array 1}, {Array 2}]}   )
   const obj = JSON.parse(json);
-  // JSON.parse() will convert the json string to a JSON object that JS can use (looks like {data: [{Array 1}, {Array 2}]}   )
   const data = obj.data;
   console.log('obj', obj);
   console.log('data', data);
 
-  
-
   const chartType = obj.chartType;
-
-  
   const chartHeight = obj.chartHeight;
   const chartWidth = obj.chartWidth;
   
