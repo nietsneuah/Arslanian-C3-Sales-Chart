@@ -41,24 +41,26 @@ window.loadChart = function (json) {
       width: chartWidth,
     },
     data: {
-      onclick: function (d){
-        console.log('onclick data', d);
-        // // is called "deconstruction"
-      const {index, value, name} = (d);
-      // // console.log("Index", index);
-      const month = months[index];
-      const newObj = {month , name, value};
-      console.log("new object", newObj);
-      // // Call a FM script (scriptName, @param) in this case passing the data at from onclick event as a new JSON object that is converted to a string (.stringify)
-      FileMaker.PerformScript("On Chart Click 1", JSON.stringify (newObj));
-      },
       labels: true,
       type: chartType,
       json: data,
       keys: {
-        x: 'month',
-        value: ['Apples', 'Peaches','Pears'],
+        x: 'dateLabel',
+        value: ['cleaning', 'misc', 'moth','pads'],
     },
+      onclick: function (d){
+        console.log('onclick data', d);
+        // // is called "deconstruction"
+      const {value, name} = (d);
+      // // console.log("Index", index);
+      // const month = months[index];
+      const newObj = {name, value};
+      console.log("new object", newObj);
+      // // Call a FM script (scriptName, @param) in this case passing the data at from onclick event as a new JSON object that is converted to a string (.stringify)
+      FileMaker.PerformScript("On Chart Click 1", JSON.stringify (newObj));
+      },
+
+      
   },
 
 
@@ -84,8 +86,12 @@ window.loadChart = function (json) {
     chart.load({
       json: data,
         keys: {
-          x: 'month',
-          value: ['Bananas'],
+          x: 'dateLabel',
+          value: ['Location sales'],
+          // axis: {
+          //   x: {type: 'category'},
+          //   y: {},
+          // },
       },
     });
   
