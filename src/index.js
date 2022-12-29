@@ -41,12 +41,17 @@ window.loadChart = function (json) {
       width: chartWidth,
     },
     data: {
-      labels: true,
+      // groups: [
+      //   ['Rug sales'],
+      //   ['AR cleaning','moth', 'AR misc', 'AR treatment', 'pads'],
+      //   ['Carpet', 'Furniture', 'Scotchgard', 'Deodorize', 'Tile']
+      // ],
+      labels: false,
       type: chartType,
       json: data,
       keys: {
         x: 'dateLabel',
-        value: ['cleaning', 'misc', 'moth','pads'],
+        value: ['AR cleaning','AR treatment', 'AR misc', 'moth', 'pads', 'Rug sales'],
     },
       onclick: function (d){
         console.log('onclick data', d);
@@ -81,17 +86,17 @@ window.loadChart = function (json) {
   // Bring in new data to existing chart
   window.loadData = function (json) {
     const obj = JSON.parse(json);
-    const data = obj.data;
-    console.log(data);
+    const data1 = obj.data;
+    console.log(data1);
     chart.load({
-      json: data,
+      json: data1,
         keys: {
           x: 'dateLabel',
-          value: ['Location sales'],
-          // axis: {
-          //   x: {type: 'category'},
-          //   y: {},
-          // },
+          value: ['Carpet', 'Furniture', 'Scotchgard', 'Deodorize', 'Tile'],
+          axis: {
+            x: {type: 'category'},
+            y: {},
+          },
       },
     });
   
