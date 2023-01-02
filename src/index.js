@@ -1,5 +1,6 @@
 // import c3 library
 import c3 from 'c3';
+import d3 from 'd3';
 
 // const months = [
 //   "Jan",
@@ -37,7 +38,7 @@ window.loadChart = function (json) {
   const dateLables = [];
   for (let i = 0; i < len; i++) {
     dateLables.push({
-      key: obj.data[i].dateLabel,
+      key: obj.data[i].zz_dateLabel,
       sortable: true,
       resizable: true
     });
@@ -49,8 +50,9 @@ function grouping (c){
     let result;
     if (chartType === 'bar') {
       result = [
-        ['Rug sales'],
+        
         ['AR cleaning','moth', 'AR misc', 'AR treatment', 'pads'],
+        ['Rug sales'],
         ['Steam Clean', 'Scotchgard', 'Deodorize'], 
         ['Carpet', 'Furniture', 'Tile']];
     } else {
@@ -64,56 +66,59 @@ function grouping (c){
     bindto: '#chart',
     axis: {
       x: {type: 'category'},
-      y: {},
+      y: {
+        // tick: {
+        //   format: d3.format("$")
+        // }
+      },
     },
     size: {
       height: chartHeight,
       width: chartWidth,
     },
     data: {
+      //  
       groups: grouping(chartType),
       
       // groups: [
-      //   ['Rug sales'],
-      //   ['AR cleaning','moth', 'AR misc', 'AR treatment', 'pads'],
-      //   ['Carpet', 'Furniture', 'Scotchgard', 'Deodorize', 'Tile']
+      //   ['Carpet', 'Furniture', 'Tile'],
+      //   ['Steam Clean', 'Scotchgard', 'Deodorize']
       // ],
-      labels: false,
+      labels: true,
       type: chartType,
+      onmouseover : function(d) {
+        console.log('yo', d);
+      },
       json: data,
       keys: {
-        x: 'dateLabel',
-        value: ['AR cleaning','AR treatment', 'AR misc', 'moth', 'pads', 'Rug sales'],
+        x: 'zz_dateLabel',
+        value: ['AR cleaning','moth', 'AR misc', 'AR treatment', 'pads', 'Rug sales'],
     },
-    // pie: {
-    //   label:{
-    //     format: function (value, ratio, id) {
-    //       return d3.format('$')(value);
-    //     }
-    //   }
-    // },
+    
       onclick: function (d){
         console.log('onclick data', d);
-        console.log('chart type', chartType);
+        // console.log('new chart type', newType);
+        let newchartType = chart.chartType;
+        console.log('onclick chart type', newchartType);
 
         // test function to check type of chart
-        function typeofChart (c){
-          let result;
-          if (chartType === 'bar') {
-            result = 'Use a dateLabel in the result';
-          } else {
-            result = 'its a ' + chartType + ' chart';
-          }
-          return result;
-        };
-          console.log('conditional',typeofChart(chartType));
+        // function typeofChart (c){
+        //   let result;
+        //   if (newType === 'bar') {
+        //     result = 'Use a dateLabel in the result';
+        //   } else {
+        //     result = 'its a ' + newType + ' chart';
+        //   }
+        //   return result;
+        // };
+        //   console.log('conditional',typeofChart(newType));
         
         // // is called "deconstruction"
-      const {value, name, index} = (d);
+      const {value, name, index, ratio} = (d);
       console.log("Index", index);
       // const month = months[index];
-      const dataLabel = dateLables[index].key;
-      const newObj = {name, value, dataLabel};
+      const dateLabel = dateLables[index].key;
+      const newObj = {name, value, dateLabel, ratio};
       console.log("new object", newObj);
       // // Call a FM script (scriptName, @param) in this case passing the data at from onclick event as a new JSON object that is converted to a string (.stringify)
       FileMaker.PerformScript("On Chart Click", JSON.stringify (newObj));
@@ -128,6 +133,8 @@ function grouping (c){
 
   window.transformChart = function(type) {
     chart.transform(type);
+    let newType = type;
+    console.log('transformed chart type', newType);
   };
 
   window.resizeChart = function(height, width) {
@@ -145,7 +152,7 @@ function grouping (c){
     chart.load({
       json: data1,
         keys: {
-          x: 'dateLabel',
+          x: 'zz_dateLabel',
           value: ['Carpet', 'Furniture', 'Scotchgard', 'Deodorize', 'Tile', 'Steam Clean'],
           axis: {
             x: {type: 'category'},
