@@ -2,20 +2,7 @@
 import c3 from 'c3';
 import d3 from 'd3';
 
-// const months = [
-//   "Jan",
-//   "Feb",
-//   "Mar",
-//   "Apr",
-//   "May",
-//   "Jun",
-//   "Jul",
-//   "Aug",
-//   "Sep",
-//   "Oct",
-//   "Nov",
-//   "Dec",
-// ];
+
 
 // This calls the loadChart script on FM (loadChart returns json as a string)
 window.loadChart = function (json) {
@@ -26,6 +13,12 @@ window.loadChart = function (json) {
   const data = obj.data;
   console.log('obj', obj);
   console.log('data', data);
+
+// Test mapping
+const arclean = data.map(function(n){
+  return n["AR cleaning"]
+});
+console.log('arclean', arclean);
 
   const chartType = obj.chartType;
   const chartHeight = obj.chartHeight;
@@ -39,8 +32,8 @@ window.loadChart = function (json) {
   for (let i = 0; i < len; i++) {
     dateLables.push({
       key: obj.data[i].zz_dateLabel,
-      sortable: true,
-      resizable: true
+      sortable: false,
+      resizable: false
     });
   }
   console.log('arr from loop', dateLables);
@@ -84,7 +77,7 @@ function grouping (c){
       //   ['Carpet', 'Furniture', 'Tile'],
       //   ['Steam Clean', 'Scotchgard', 'Deodorize']
       // ],
-      labels: true,
+      labels: false,
       type: chartType,
       onmouseover : function(d) {
         console.log('yo', d);
