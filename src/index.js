@@ -44,8 +44,8 @@ function grouping (c){
     if (chartType === 'bar') {
       result = [
         
-        ['AR cleaning','moth', 'AR misc', 'AR treatment', 'pads'],
-        ['Rug sales'],
+        ['AR cleaning', 'AR treatment' ],
+        ['Rug sales', 'moth', 'pads' , 'AR misc'],
         ['Steam Clean', 'Scotchgard', 'Deodorize'], 
         ['Carpet', 'Furniture', 'Tile']];
     } else {
@@ -71,21 +71,36 @@ function grouping (c){
     },
     data: {
       //  
-      groups: grouping(chartType),
+      // groups: grouping(chartType),
       
       // groups: [
       //   ['Carpet', 'Furniture', 'Tile'],
       //   ['Steam Clean', 'Scotchgard', 'Deodorize']
       // ],
+      
+      selection: {
+        enabled: true
+      },
+      tooltip: {
+        show: true
+      },
       labels: false,
       type: chartType,
-      onmouseover : function(d) {
-        console.log('yo', d);
-      },
+      // onmouseover : function(d) {
+      //   console.log('yo', d);
+      // },
       json: data,
       keys: {
         x: 'zz_dateLabel',
-        value: ['AR cleaning','moth', 'AR misc', 'AR treatment', 'pads', 'Rug sales'],
+        value: ['AR cleaning',  'AR treatment' , 'Rug sales','moth', 'pads' , 'AR misc'],
+    },
+    grid:{
+      x: {
+        show: true
+      },
+      y:{
+        show: true
+      }
     },
     
       onclick: function (d){
@@ -128,8 +143,25 @@ function grouping (c){
     chart.transform(type);
     let newType = type;
     console.log('transformed chart type', newType);
+    if (newType === 'bar') {
+      setTimeout(function(){
+        chart.groups(grouping(chartType)
+        )
+      }, 1000);
+      const currentChartGroup = grouping(chartType);
+      console.log('if new type chart', newType);
+      console.log('chartGrouping', currentChartGroup);
+      
+    } else {
+      setTimeout(function(){
+        chart.groups([[]])
+        
+      }, 1000);
+      const currentChartGroup = chart.groups([['']]);
+      console.log('chartGrouping', currentChartGroup);
+    };
   };
-
+  
   window.resizeChart = function(height, width) {
     chart.resize({
       height: height,
@@ -144,15 +176,15 @@ function grouping (c){
     console.log(data1);
     chart.load({
       json: data1,
-        keys: {
-          x: 'zz_dateLabel',
-          value: ['Carpet', 'Furniture', 'Scotchgard', 'Deodorize', 'Tile', 'Steam Clean'],
-          axis: {
-            x: {type: 'category'},
-            y: {},
-          },
+      keys: {
+        x: 'zz_dateLabel',
+        value: ['Carpet', 'Furniture', 'Scotchgard', 'Deodorize', 'Tile', 'Steam Clean'],
+        axis: {
+          x: {type: 'category'},
+          y: {},
+        },
       },
     });
-  
   };
+  
 };
